@@ -1,4 +1,29 @@
 package com.example.demo.resource;
 
+import com.example.demo.Loan;
+import com.example.demo.repository.LoanRepository;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+
+@Path("/users")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class UserResource {
+
+    private LoanRepository loanRepo = new LoanRepository();
+
+    @GET
+    @Path("/{id}/loans")
+    public Response getLoans(@PathParam("id") long userId) {
+        return Response.ok(loanRepo.findByUserId(userId)).build();
+    }
+
+    @POST
+    @Path("/{id}/loans")
+    public Response createLoan(@PathParam("id") Long userId, Loan loanRequest) {
+        loanRequest.setUserId(userId);
+        Loan created = loanRepo.save(loanRequest);
+        return Response.status(Response.Status.CREATED).entity(created).build();
+    }
 }
