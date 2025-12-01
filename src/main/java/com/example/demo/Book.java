@@ -1,8 +1,18 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(name = "author_id")
     private int authorId;
 
     public Book() {}

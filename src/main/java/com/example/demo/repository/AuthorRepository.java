@@ -1,43 +1,84 @@
 package com.example.demo.repository;
 
 import com.example.demo.Author;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import com.example.demo.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 
 public class AuthorRepository {
 
-    private static final Map<Long, Author> authors = new ConcurrentHashMap<>();
-    private static final AtomicLong idGenerator = new AtomicLong(1);
-
     public List<Author> findAll() {
-        return new ArrayList<>(authors.values());
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("SELECT a FROM Author a", Author.class).getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     public Author findById(Long id) {
-        return authors.get(id);
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.find(Author.class, id);
+        } finally {
+            em.close();
+        }
     }
 
     public Author save(Author author) {
-        if (author.getId() == null) {
-            author.setId(idGenerator.getAndIncrement());
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            if (author.getId() == null || author.getId() == 0) {
+                em.persist(author);
+            } else {
+                author = em.merge(author);
+            }
+            em.getTransaction().commit();
+            return author;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
         }
-        authors.put(author.getId(), author);
-        return author;
     }
 
     public Author update(Long id, Author updated) {
-        Author existing = authors.get(id);
-        if (existing == null) {
-            return null;
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Author existing = em.find(Author.class, id);
+            if (existing == null) {
+                em.getTransaction().rollback();
+                return null;
+            }
+            updated.setId(id);
+            Author saved = em.merge(updated);
+            em.getTransaction().commit();
+            return saved;
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
         }
-        updated.setId(id);
-        authors.put(id, updated);
-        return updated;
     }
 
     public boolean delete(Long id) {
-        return authors.remove(id) != null;
+        EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Author author = em.find(Author.class, id);
+            if (author != null) {
+                em.remove(author);
+                em.getTransaction().commit();
+                return true;
+            }
+            em.getTransaction().rollback();
+            return false;
+        } finally {
+            em.close();
+        }
     }
 }

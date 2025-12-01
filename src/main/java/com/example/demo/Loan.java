@@ -1,8 +1,18 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "loans")
 public class Loan {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    @Column(name = "book_id", nullable = false)
     private int bookId;
 
     public Loan() {}

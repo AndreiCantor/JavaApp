@@ -1,0 +1,57 @@
+### 1. Create Authors
+POST http://localhost:8080/demo_war_exploded/api/authors
+Content-Type: application/json
+
+{
+  "name": "J.K. Rowling"
+}
+
+###
+POST http://localhost:8080/demo_war_exploded/api/authors
+Content-Type: application/json
+
+{
+  "name": "George Orwell"
+}
+
+### 2. Create Books (linked to Author IDs 1 and 2)
+POST http://localhost:8080/demo_war_exploded/api/books
+Content-Type: application/json
+
+{
+  "title": "Harry Potter and the Philosopher's Stone",
+  "authorId": 1
+}
+
+###
+POST http://localhost:8080/demo_war_exploded/api/books
+Content-Type: application/json
+
+{
+  "title": "1984",
+  "authorId": 2
+}
+
+### 3. Create Users
+POST http://localhost:8080/demo_war_exploded/api/users
+Content-Type: application/json
+
+{
+  "name": "Alice Smith"
+}
+
+###
+POST http://localhost:8080/demo_war_exploded/api/users
+Content-Type: application/json
+
+{
+  "name": "Bob Jones"
+}
+
+### 4. Create a Loan (User 1 borrows Book 1)
+POST http://localhost:8080/demo_war_exploded/api/users/1/loans
+Content-Type: application/json
+
+{
+  "bookId": 1
+}
