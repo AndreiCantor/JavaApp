@@ -26,7 +26,7 @@ import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
         ,
         servers = {
                 @Server(
-                        url = "/demo_war_exploded",   // 🔥 context path + /api
+                        url = "/demo_war_exploded",
                         description = "Tomcat local"
                 )
         }
@@ -36,13 +36,9 @@ public class HelloApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new HashSet<>();
-
-        // Inregistrarea resurselor
         resources.add(BookResource.class);
         resources.add(AuthorResource.class);
         resources.add(UserResource.class);
-
-        // Inregistrare resursa Swagger/OpenAPI
         resources.add(OpenApiResource.class);
 
         return resources;
