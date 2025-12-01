@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.resource.AuthorResource;
 import com.example.demo.resource.BookResource;
+import com.example.demo.resource.OpenLibraryResource;
 import com.example.demo.resource.UserResource;
 import io.swagger.v3.oas.annotations.servers.Server;
 import jakarta.ws.rs.ApplicationPath;
@@ -40,6 +41,7 @@ public class HelloApplication extends Application {
         resources.add(AuthorResource.class);
         resources.add(UserResource.class);
         resources.add(OpenApiResource.class);
+        resources.add(OpenLibraryResource.class);
 
         return resources;
     }
