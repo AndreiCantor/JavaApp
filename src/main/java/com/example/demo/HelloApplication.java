@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.filter.CorsFilter;
 import com.example.demo.resource.AuthorResource;
 import com.example.demo.resource.BookResource;
 import com.example.demo.resource.OpenLibraryResource;
@@ -42,6 +43,7 @@ public class HelloApplication extends Application {
         resources.add(UserResource.class);
         resources.add(OpenApiResource.class);
         resources.add(OpenLibraryResource.class);
+        resources.add(CorsFilter.class);
 
         return resources;
     }
