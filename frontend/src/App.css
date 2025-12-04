@@ -115,7 +115,6 @@ body {
     color: #b91c1c;
 }
 
-/* GRID LAYOUT */
 
 .grid {
     display: grid;
@@ -127,7 +126,6 @@ body {
     grid-column: 1 / -1;
 }
 
-/* CARDS */
 
 .card {
     background: white;
@@ -253,7 +251,6 @@ button:active {
     background: #f9fafb;
 }
 
-/* LISTS */
 
 .list {
     list-style: none;

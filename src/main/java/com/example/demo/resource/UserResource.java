@@ -16,7 +16,7 @@ import java.net.URI;
 public class UserResource {
 
     private LoanRepository loanRepo = new LoanRepository();
-    private UserRepository userRepo = new UserRepository(); // Add this repository
+    private UserRepository userRepo = new UserRepository();
 
     @POST
     public Response createUser(User user) {

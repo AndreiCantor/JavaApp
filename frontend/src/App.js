@@ -22,20 +22,16 @@ async function fetchJson(path, options = {}) {
 }
 
 function App() {
-    // autori
     const [authors, setAuthors] = useState([]);
     const [newAuthorName, setNewAuthorName] = useState("");
 
-    // carti (BOOKS) - în loc de users
     const [books, setBooks] = useState([]);
     const [newBookTitle, setNewBookTitle] = useState("");
     const [newBookAuthorId, setNewBookAuthorId] = useState("");
 
-    // openlibrary
     const [title, setTitle] = useState("");
     const [externalBooks, setExternalBooks] = useState([]);
 
-    // status
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -52,7 +48,6 @@ function App() {
         }
     };
 
-    // ---------- AUTHORS ----------
     const loadAuthors = () =>
         handleRequest(async () => {
             const data = await fetchJson("/authors");
@@ -70,7 +65,6 @@ function App() {
             setNewAuthorName("");
         });
 
-    // ---------- BOOKS (Internal) ----------
     const loadBooks = () =>
         handleRequest(async () => {
             const data = await fetchJson("/books");
@@ -83,7 +77,7 @@ function App() {
 
             const bookPayload = {
                 title: newBookTitle,
-                authorId: parseInt(newBookAuthorId) // Backend-ul așteaptă un int
+                authorId: parseInt(newBookAuthorId)
             };
 
             const book = await fetchJson("/books", {
@@ -96,7 +90,6 @@ function App() {
             setNewBookAuthorId("");
         });
 
-    // ---------- OPENLIBRARY SEARCH ----------
     const searchOpenLibrary = () =>
         handleRequest(async () => {
             if (!title.trim()) return;
@@ -170,7 +163,6 @@ function App() {
                         )}
                     </section>
 
-                    {/* BOOKS (Internal) - Înlocuiește Users */}
                     <section className="card">
                         <div className="card-header">
                             <div className="card-icon books">B</div>
@@ -186,7 +178,6 @@ function App() {
                             <button onClick={loadBooks}>Încarcă lista de cărți</button>
                         </div>
 
-                        {/* AM SCOS style={{...}} DE AICI PENTRU A FOLOSI CSS-UL DEFAULT */}
                         <div className="card-form">
                             <input
                                 type="text"

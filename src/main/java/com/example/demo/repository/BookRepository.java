@@ -30,9 +30,7 @@ public class BookRepository {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            // If id is 0, it's new; otherwise we assume it's an update or new entry
-            // Ideally for new entries we use persist, for updates merge.
-            // Since id is generated, we can just use merge for safety or simple persist.
+
             if (book.getId() == 0) {
                 em.persist(book);
             } else {
@@ -52,7 +50,7 @@ public class BookRepository {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
             em.getTransaction().begin();
-            book.setId(id); // Ensure ID is set
+            book.setId(id);
             Book updated = em.merge(book);
             em.getTransaction().commit();
             return updated;
@@ -84,7 +82,6 @@ public class BookRepository {
     public List<Book> findByAuthorId(Long authorId) {
         EntityManager em = JPAUtil.getEntityManagerFactory().createEntityManager();
         try {
-            // Note: Book has 'int' authorId, we are casting param to match if needed or relying on DB type
             TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.authorId = :aid", Book.class);
             query.setParameter("aid", authorId.intValue()); // Cast Long to int to match Book field
             return query.getResultList();
